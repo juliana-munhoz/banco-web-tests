@@ -1,0 +1,25 @@
+{
+  "name": "banco-web-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run",
+    "cy.headed": "cypress run --headed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juliana-munhoz/banco-web-tests.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/juliana-munhoz/banco-web-tests/issues"
+  },
+  "homepage": "https://github.com/juliana-munhoz/banco-web-tests#readme",
+  "devDependencies": {
+    "cypress": "^14.5.1"
+  }
+}
