@@ -1,0 +1,11 @@
+{
+  "valida":{
+    "user": "julio.lima",
+    "password": "123456"  
+  },
+  "invalida":{
+    "user": "julio.lima",
+    "password": "123456xxx"  
+  }
+  
+}

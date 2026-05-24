@@ -1,17 +1,20 @@
+import credenciais from '../fixtures/credenciais.json'
+
 describe('Login', () => {
 
   beforeEach(()=>{
-    cy.visit('http://localhost:4000')
-    cy.screenshot('após visitar pagina')
+    cy.visit('http://localhost:4000')    
   })
 
   it('Login com dados válidos deve permitir entrada no sistema', () => {
+
     cy.get('#username')
       .should('be.enabled')
-      .type('julio.lima')
+      .type(credenciais.valida.user)
     cy.get('#senha')
       .should('be.enabled')
-      .type('123456')
+      .type(credenciais.valida.password)  
+   
     cy.contains('button','Entrar')
       .should('be.enabled')
       .click()
@@ -22,12 +25,15 @@ describe('Login', () => {
 
   it('Login com senha incorreta não deve permitir logar', () => {
 
-    cy.get('#username')
-      .should('be.enabled')
-      .type('julio.lima')
-    cy.get('#senha')
-      .should('be.enabled')
-      .type('123456xxxx')
+    cy.fixture('credenciais').then(credenciais => {
+      cy.get('#username')
+        .should('be.enabled')
+        .type(credenciais.invalida.user)
+      cy.get('#senha')
+        .should('be.enabled')
+        .type(credenciais.invalida.password)
+    })  
+    
     cy.contains('button','Entrar')
       .should('be.enabled')
       .click()
@@ -40,14 +46,14 @@ describe('Login', () => {
       .should('have.text','Erro no login. Tente novamente.')
   })
 
-  it('Login com email incorreto não deve permitir logar', () => {
+  it('Login com usuário incorreto não deve permitir logar', () => {
     
     cy.get('#username')
       .should('be.enabled')
-      .type('maria.lima')
+      .type(credenciais.invalida.user)
     cy.get('#senha')
       .should('be.enabled')
-      .type('123456')
+      .type(credenciais.invalida.password)
     cy.contains('button','Entrar')
       .should('be.enabled')
       .click()
@@ -60,14 +66,14 @@ describe('Login', () => {
       .should('have.text','Erro no login. Tente novamente.')
   })
 
-  it('Login com email e senha incorretos não deve permitir logar', () => {
+  it('Login com usuário e senha incorretos não deve permitir logar', () => {
     
     cy.get('#username')
       .should('be.enabled')
-      .type('maria.lima')
+      .type(credenciais.invalida.user)
     cy.get('#senha')
       .should('be.enabled')
-      .type('123456xxx')
+      .type(credenciais.invalida.password)
     cy.contains('button','Entrar')
       .should('be.enabled')
       .click()
