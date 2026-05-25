@@ -1,37 +1,23 @@
+import credenciais from '../fixtures/credenciais.json'
+
 describe('Tranferencias', ()=>{
 
-    beforeEach(()=>{    
-    
+    beforeEach(()=>{        
         cy.visit('/') 
-        cy.fixture('credenciais').then(credenciais=>{
-            cy.get('#username')
-            .should('be.enabled')
-            .type(credenciais.valida.user)
-            cy.get('#senha')
-            .should('be.enabled')
-            .type(credenciais.valida.password) 
-        })
-        cy.contains('button','Entrar')
-        .should('be.enabled')
-        .click() 
-
+        cy.fazerLogin(credenciais.valida.user,credenciais.valida.password)
     })
 
     it('Deve transferir quando informo dados validos', ()=>{
-        cy.get('label[for="conta-origem"').parent().as('campo-conta-origem')
-        cy.get('@campo-conta-origem').click()
-        cy.get('@campo-conta-origem')
-            .contains('João da Silva com saldo de R$')
-            .click()
 
-        cy.get('label[for="conta-destino"').parent().as('campo-conta-destino')
-        cy.get('@campo-conta-destino').click()
-        cy.get('@campo-conta-destino')
-            .contains('Maria Oliveira com saldo de R$')
-            .click()
+        cy.realizarTransferencia('João da Silva','Maria Oliveira',10)
+        
+        cy.validarMensagemToast('Transferência realizada!')
+    })
 
-        cy.get('#valor').type(10)
-        cy.contains('button','Transferir').click()
-        cy.get('#toast-container').should('have.text','Transferência realizada!')
+    it('Não deve transferir quando o valor é > 5000 e não passa o token', ()=>{
+
+        cy.realizarTransferencia('João da Silva','Maria Oliveira',5001)
+        
+        cy.validarMensagemToast('Saldo insuficiente para realizar a transferência.')
     })
 })
